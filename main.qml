@@ -13,6 +13,18 @@ ApplicationWindow {
     property int  fontSize: 20
     readonly property string preeditInput: "Insert Command"
 
+    Connections
+    {
+        target: commandInputClass
+        onMessageChanged:
+        {
+            console.log ( " sygnal z cpp " + outputCommand )
+            textAreaId.text += outputCommand
+
+        }
+
+    }
+
 
     ColumnLayout
     {

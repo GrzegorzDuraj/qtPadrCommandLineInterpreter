@@ -17,6 +17,14 @@ int main(int argc, char *argv[])
   QQmlApplicationEngine engine;
   const QUrl url(QStringLiteral("qrc:/main.qml"));
 
+  CommpandInput commandInput;
+
+  auto root_context = engine.rootContext();
+  root_context->setContextProperty("commandInputClass", &commandInput );
+
+
+
+
   QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                    &app, [url](QObject *obj, const QUrl &objUrl) {
     if (!obj && url == objUrl)
@@ -25,9 +33,10 @@ int main(int argc, char *argv[])
   engine.load(url);
 
 
+
+
   QObject *topLevel  = engine.rootObjects().value(0);
   QObject * myObject= topLevel->findChild<QObject*>("rectangleCommandSend");
-  CommpandInput commandInput;
   QObject::connect(myObject, SIGNAL(sendMessage(QVariant)),
                    &commandInput, SLOT(cppSlot(QVariant)));
 

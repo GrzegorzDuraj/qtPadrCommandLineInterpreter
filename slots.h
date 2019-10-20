@@ -5,6 +5,7 @@
 #include <QtDebug>
 #include <QQuickItem>
 #include <QQuickView>
+#include <QProcess>
 
 
 class CommpandInput : public QObject
@@ -13,11 +14,17 @@ class CommpandInput : public QObject
 public:
   explicit CommpandInput(QObject *parent = nullptr);
 
+
+  QProcess builder;
+
 signals:
+  void messageChanged(QString outputCommand);
 
 public slots:
 
   void cppSlot(const QVariant &v);
+
+  void readData();
 
 };
 
