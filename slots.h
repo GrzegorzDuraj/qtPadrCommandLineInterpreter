@@ -7,39 +7,20 @@
 #include <QQuickView>
 
 
-
-class Slots : public QObject
+class CommpandInput : public QObject
 {
   Q_OBJECT
 public:
-  explicit Slots(QObject *parent = nullptr);
+  explicit CommpandInput(QObject *parent = nullptr);
 
 signals:
 
 public slots:
+
+  void cppSlot(const QVariant &v);
+
 };
 
-
-
-
-class MyClass22 : public QObject
-{
-  Q_OBJECT
-public:
-  MyClass22(){}
-  virtual ~MyClass22(){}
-
-public slots:
-  void cppSlot(const QVariant &v)
-  {
-    qDebug() << "Called the C++ slot with value:" << v;
-
-    QQuickItem *item =
-        qobject_cast<QQuickItem*>(v.value<QObject*>());
-    qDebug() << "Item dimensions:" << item->width()
-             << item->height();
-  }
-};
 
 
 #endif // SLOTS_H

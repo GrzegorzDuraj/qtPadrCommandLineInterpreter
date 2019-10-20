@@ -41,22 +41,55 @@ ApplicationWindow {
             Flickable {
                 id: flick
 
-                width: 300; height: 200;
+                //   width: 300; height: 200;
+                anchors.fill: parent
                 contentWidth: textAreaId.paintedWidth
                 contentHeight: textAreaId.paintedHeight
                 clip: true
 
                 function ensureVisible(r)
                 {
+
+                    console.log("contentX: " , contentX)
+                    console.log("contentY: " , contentY)
+                    console.log("r: " , r)
+
+                    console.log("r.X: " , r.x)
+                    console.log("r.Y: " , r.y)
+
+
                     if (contentX >= r.x)
                         contentX = r.x;
                     else if (contentX+width <= r.x+r.width)
                         contentX = r.x+r.width-width;
-                    if (contentY >= r.y)
+
+                    if (r.y === 0 )
+                    {
+                        r.y = contentY
+                        console.log("r.y is eqaul 0 : " , contentY + " " + r.y)
+                        contentY += r.height
+
+                    }
+                    else if (contentY >= r.y)
+                    {
                         contentY = r.y;
+                        console.log("r >=  " , contentY)
+
+                    }
                     else if (contentY+height <= r.y+r.height)
+                    {
+
                         contentY = r.y+r.height-height;
+                        console.log("r <  " , contentY)
+
+                    }
+
+                    console.log("contentX: " , contentX)
+                    console.log("contentY: " , contentY)
+
+
                 }
+
                 Component.onCompleted:
                 {
                     console.log ("object " , this + " height " + height)
@@ -73,9 +106,11 @@ ApplicationWindow {
                     id :textAreaId
                     color: "black"
                     font{pixelSize:fontSize}
-                    anchors.fill: parent
+                    //anchors.fill: parent
                     width: flick.width
-                  //  focus: true
+                    height: flick.height
+                    focus: true
+                    //      cursorRectangle:
 
                     onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
                     text:
@@ -116,12 +151,6 @@ ApplicationWindow {
 
 
 
-//        Connections
-//        {
-//            target: textAreaId
-//            onSendMessage: { console.log("Hello by Comp 1") }
-//        }
-
         Rectangle
         {
             Component.onCompleted:
@@ -132,7 +161,7 @@ ApplicationWindow {
 
             id: insertCommandRectangleId
             color: "green"
-            objectName: "Rectangle drugi do text Fielda "
+            objectName: "rectangleCommandSend"
             border.color: "black"
 
             Layout.preferredWidth: parent.width
@@ -152,21 +181,24 @@ ApplicationWindow {
 
             Keys.onPressed: checkKey(event)
 
-            signal sendMessage(string msg )
+            signal sendMessage(var msg )
 
             Keys.onReturnPressed: {
                 console.log("enterPressed")
-                console.log("textArea Id text " + textAreaId.text)
+                //    console.log("textArea Id text " + textAreaId.text)
                 console.log("\n\n")
                 console.log(textInputCommandId.text)
                 textAreaId.text += textInputCommandId.text + "\n"
+                insertCommandRectangleId.sendMessage(textInputCommandId.text)
                 textInputCommandId.clear()
-                insertCommandRectangleId.sendMessage(textAreaId.text)
+
             }
 
             TextField
             {
+
                 id: textInputCommandId
+
                 width: parent.width
 
                 Component.onCompleted:
@@ -175,9 +207,10 @@ ApplicationWindow {
                 }
 
 
+
                 placeholderText : preeditInput
                 font {pixelSize:fontSize}
-             //   wrapMode: TextInput.Wrap
+                //   wrapMode: TextInput.Wrap
                 focus:true
             }
         }
