@@ -217,9 +217,6 @@ ApplicationWindow {
                 {
                     console.log ("object " , this + " height " + height)
                 }
-
-
-
                 placeholderText : preeditInput
                 font {pixelSize:fontSize}
                 //   wrapMode: TextInput.Wrap
