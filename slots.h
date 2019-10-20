@@ -24,7 +24,9 @@ public slots:
 
   void cppSlot(const QVariant &v);
 
-  void readData();
+  void readDataOutput();
+  void readDataError();
+
 
 };
 

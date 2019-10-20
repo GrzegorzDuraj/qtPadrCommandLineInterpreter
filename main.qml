@@ -19,7 +19,7 @@ ApplicationWindow {
         onMessageChanged:
         {
             console.log ( " sygnal z cpp " + outputCommand )
-            textAreaId.text += outputCommand
+            textAreaId.text = outputCommand + textAreaId.text
 
         }
 
@@ -59,48 +59,48 @@ ApplicationWindow {
                 contentHeight: textAreaId.paintedHeight
                 clip: true
 
-                function ensureVisible(r)
-                {
+//                function ensureVisible(r)
+//                {
 
-                    console.log("contentX: " , contentX)
-                    console.log("contentY: " , contentY)
-                    console.log("r: " , r)
+//                    console.log("contentX: " , contentX)
+//                    console.log("contentY: " , contentY)
+//                    console.log("r: " , r)
 
-                    console.log("r.X: " , r.x)
-                    console.log("r.Y: " , r.y)
-
-
-                    if (contentX >= r.x)
-                        contentX = r.x;
-                    else if (contentX+width <= r.x+r.width)
-                        contentX = r.x+r.width-width;
-
-                    if (r.y === 0 )
-                    {
-                        r.y = contentY
-                        console.log("r.y is eqaul 0 : " , contentY + " " + r.y)
-                        contentY += r.height
-
-                    }
-                    else if (contentY >= r.y)
-                    {
-                        contentY = r.y;
-                        console.log("r >=  " , contentY)
-
-                    }
-                    else if (contentY+height <= r.y+r.height)
-                    {
-
-                        contentY = r.y+r.height-height;
-                        console.log("r <  " , contentY)
-
-                    }
-
-                    console.log("contentX: " , contentX)
-                    console.log("contentY: " , contentY)
+//                    console.log("r.X: " , r.x)
+//                    console.log("r.Y: " , r.y)
 
 
-                }
+//                    if (contentX >= r.x)
+//                        contentX = r.x;
+//                    else if (contentX+width <= r.x+r.width)
+//                        contentX = r.x+r.width-width;
+
+//                    if (r.y === 0 )
+//                    {
+//                        r.y = contentY
+//                        console.log("r.y is eqaul 0 : " , contentY + " " + r.y)
+//                        contentY += r.height
+
+//                    }
+//                    else if (contentY >= r.y)
+//                    {
+//                        contentY = r.y;
+//                        console.log("r >=  " , contentY)
+
+//                    }
+//                    else if (contentY+height <= r.y+r.height)
+//                    {
+
+//                        contentY = r.y+r.height-height;
+//                        console.log("r <  " , contentY)
+
+//                    }
+
+//                    console.log("contentX: " , contentX)
+//                    console.log("contentY: " , contentY)
+
+
+//                }
 
                 Component.onCompleted:
                 {
@@ -121,10 +121,12 @@ ApplicationWindow {
                     //anchors.fill: parent
                     width: flick.width
                     height: flick.height
+                    textFormat: Text.RichText
+
                     focus: true
                     //      cursorRectangle:
 
-                    onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
+             //       onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
                     text:
                         "lorem ipsum dolor sit amet, \n" +
                         "druga linia " +
@@ -200,7 +202,9 @@ ApplicationWindow {
                 //    console.log("textArea Id text " + textAreaId.text)
                 console.log("\n\n")
                 console.log(textInputCommandId.text)
-                textAreaId.text += textInputCommandId.text + "\n"
+               // textAreaId.text = "<font color=\"00FFFF\">" + textInputCommandId.text </font> + "\n" + textAreaId.text
+                 textAreaId.text = "<b>" + textInputCommandId.text + "<\\b>" + "\n" + textAreaId.text
+
                 insertCommandRectangleId.sendMessage(textInputCommandId.text)
                 textInputCommandId.clear()
 

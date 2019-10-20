@@ -2,6 +2,12 @@
 
 CommpandInput::CommpandInput(QObject *parent) : QObject(parent)
 {
+  connect(&builder, SIGNAL(readyReadStandardOutput()),
+          this, SLOT(readDataOutput()));
+
+
+  connect(&builder, SIGNAL(readyReadStandardError()),
+          this, SLOT(readDataError()));
 
 }
 void CommpandInput::cppSlot(const QVariant &v)
@@ -32,19 +38,29 @@ void CommpandInput::cppSlot(const QVariant &v)
 
   builder.start(list[0].trimmed(), params);
 
-  builder.waitForFinished();
+  //builder.waitForFinished();
 
-  connect(&builder, SIGNAL(readyReadStandardOutput()),
-          this, SLOT(readData()));
+
 
 
 }
 
+void CommpandInput::readDataError()
+{
+  QString output = builder.readAllStandardError();
+  output = output.replace("\n", "<br>");
+  qDebug() << "output:" << output << endl;
 
-void CommpandInput::readData()
+  emit messageChanged(output);
+
+}
+
+
+void CommpandInput::readDataOutput()
 {
   QString output = builder.readAllStandardOutput();
-  qDebug() << output << endl;
+  output = output.replace("\n", "<br>");
+  qDebug() << "output:" << output << endl;
 
   emit messageChanged(output);
 
